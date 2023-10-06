@@ -9,11 +9,11 @@
   
 
   const source = 'http://techslides.com/demos/sample-videos/small.mp4 ';
-</script>
+</script >
 
 <main>
 
-<h1>Initialer Commit</h1>
+<h1>Initialer Commit 610</h1>
 <VideoPlayer width="500" height="500"  {source} loop />
   
   
