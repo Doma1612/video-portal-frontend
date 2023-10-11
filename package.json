@@ -27,7 +27,7 @@
     "lint-staged": "^14.0.1"
   },
   "dependencies": {
-    "svelte-video-player": "^1.2.5"
+    "svelte-video-player": "^1.2.5",
     "acorn": "^8.10.0",
     "acorn-jsx": "^5.3.2",
     "ajv": "^6.12.6",
@@ -191,7 +191,7 @@
     "which-typed-array": "^1.1.11",
     "wrappy": "^1.0.2",
     "yocto-queue": "^0.1.0"
-  }
+  },
 
  "lint-staged":{
     "**/*.{js,jsx,ts,tsx,svelte}":[
