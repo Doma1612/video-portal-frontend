@@ -13,21 +13,22 @@
   "devDependencies": {
     "@sveltejs/vite-plugin-svelte": "^2.4.2",
     "autoprefixer": "^10.4.16",
-    "postcss": "^8.4.31",
-    "prettier": "^3.0.3",
-    "prettier-plugin-svelte": "^3.0.3",
-    "svelte": "^4.0.5",
-    "tailwindcss": "^3.3.3",
-    "vite": "^4.4.5",
     "eslint": "^8.51.0",
     "eslint-config-airbnb-base": "^15.0.0",
     "eslint-config-prettier": "9.0.0",
     "eslint-plugin-import": "^2.28.1",
+    "eslint-plugin-svelte": "^2.34.0",
     "husky": "^8.0.0",
-    "lint-staged": "^14.0.1"
+    "lint-staged": "^14.0.1",
+    "postcss": "^8.4.31",
+    "prettier": "^3.0.3",
+    "prettier-plugin-svelte": "^3.0.3",
+    "svelte": "^4.2.1",
+    "tailwindcss": "^3.3.3",
+    "typescript": "^5.2.2",
+    "vite": "^4.4.5"
   },
   "dependencies": {
-    "svelte-video-player": "^1.2.5",
     "acorn": "^8.10.0",
     "acorn-jsx": "^5.3.2",
     "ajv": "^6.12.6",
@@ -176,6 +177,7 @@
     "strip-json-comments": "^3.1.1",
     "supports-color": "^7.2.0",
     "supports-preserve-symlinks-flag": "^1.0.0",
+    "svelte-video-player": "^1.2.5",
     "text-table": "^0.2.0",
     "tsconfig-paths": "^3.14.2",
     "type-check": "^0.4.0",
@@ -192,13 +194,10 @@
     "wrappy": "^1.0.2",
     "yocto-queue": "^0.1.0"
   },
-
- "lint-staged":{
-    "**/*.{js,jsx,ts,tsx,svelte}":[
+  "lint-staged": {
+    "**/*.{js,jsx,ts,tsx,svelte}": [
       "npx prettier --write",
       "npx eslint --fix"
     ]
   }
 }
-
-
