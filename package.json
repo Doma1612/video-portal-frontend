@@ -26,7 +26,7 @@
     "svelte": "^4.2.1",
     "tailwindcss": "^3.3.3",
     "typescript": "^5.2.2",
-    "vite": "^4.4.5"
+    "vite": "^4.4.11"
   },
   "dependencies": {
     "acorn": "^8.10.0",
@@ -61,6 +61,7 @@
     "es-set-tostringtag": "^2.0.1",
     "es-shim-unscopables": "^1.0.0",
     "es-to-primitive": "^1.2.1",
+    "esbuild": "^0.18.20",
     "escape-string-regexp": "^4.0.0",
     "eslint-import-resolver-node": "^0.3.9",
     "eslint-module-utils": "^2.8.0",
@@ -177,6 +178,7 @@
     "strip-json-comments": "^3.1.1",
     "supports-color": "^7.2.0",
     "supports-preserve-symlinks-flag": "^1.0.0",
+    "svelte-routing": "^2.5.0",
     "svelte-video-player": "^1.2.5",
     "text-table": "^0.2.0",
     "tsconfig-paths": "^3.14.2",

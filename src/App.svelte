@@ -1,14 +1,8 @@
-<!-- <script>
-  import svelteLogo from './assets/svelte.svg'
-  import viteLogo from '/vite.svg'
-  import Counter from './lib/Counter.svelte'
-  import TailwindCss from './lib/TailwindCSS.svelte';
-  import VideoPlayer from 'svelte-video-player';
+<script></script>
 
-
-  
-  const source = 'http://techslides.com/demos/sample-videos/small.webm';
-</script > -->
+<head>
+  <link rel="stylesheet" href="style.css" />
+</head>
 
 <main>
   <!-- Test-->
@@ -18,7 +12,19 @@
     Initialer Commit 610
   </h1>
 
-  <!-- <VideoPlayer width="500" height="500"  {source} loop /> -->
+  <h1
+    class="mb-4 text-5xl font-bold leading-none tracking-tight text-red-900 md:text-5xl lg:text-6xl dark:text-white"
+  >
+    Test
+  </h1>
+
+  <VideoPlayer
+    width="500"
+    height="500"
+    poster="./background.jpg"
+    source="http://techslides.com/demos/sample-videos/small.webm"
+    loop
+  />
 
   <p>
     Check out <a
