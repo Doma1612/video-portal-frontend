@@ -1,0 +1,52 @@
+env:
+  browser: true
+  es2021: true
+extends: 
+  - airbnb-base
+  - prettier
+  - plugin:svelte/recommended
+parserOptions:
+  ecmaVersion: latest
+  sourceType: module
+
+rules:
+  #max-classes-per-file: 0
+  func-names: 0 # Ignore the "func-names" rule
+  no-restricted-syntax: 0 # Ignore the "no-restricted-syntax" rule
+  no-use-before-define: 0 # Ignore the "no-use-before-define" rule
+  no-nested-ternary: 0 # Ignore the "no-nested-ternary" rule
+  no-self-compare: 0 # Ignore the "no-self-compare" rule
+  eqeqeq: 0 # Ignore the "eqeqeq" rule
+  guard-for-in: 0 # Ignore the "guard-for-in" rule
+  no-unused-vars: 0 # Ignore the "no-unused-vars" rule
+  prefer-const: 0 # Ignore the "prefer-const" rule
+  no-underscore-dangle: 0 # Ignore the "no-underscore-dangle" rule
+  no-cond-assign: 0 # Ignore the "no-cond-assign" rule
+  no-multi-assign: 0 # Ignore the "no-multi-assign" rule
+  consistent-return: 0 # Ignore the "consistent-return" rule
+  prefer-rest-params: 0 # Ignore the "prefer-rest-params" rule
+  no-var: 0 # Ignore the "no-var" rule
+  vars-on-top: 0 # Ignore the "vars-on-top" rule
+  no-plusplus: 0 # Ignore the "no-plusplus" rule
+  no-restricted-globals: 0 # Ignore the "no-restricted-globals" rule
+  no-new: 0 # Ignore the "no-new" rule
+  radix: 0 # Ignore the "radix" rule
+  no-sequences: 0
+  new-cap: 0
+  no-unused-expressions: 0
+  no-return-assign: 0
+  no-bitwise: 0
+  no-param-reassign: 0
+  prefer-destructuring: 0
+  no-void: 0
+  default-case: 0
+  no-sparse-arrays: 0
+  no-undef: 0
+
+
+
+  
+ignorePatterns:
+  - node_modules/
+  - build/
+ 
