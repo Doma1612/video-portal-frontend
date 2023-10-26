@@ -8,9 +8,11 @@ extends:
 parserOptions:
   ecmaVersion: latest
   sourceType: module
+  parser: "@babel/eslint-parser"
+
 
 rules:
-  max-classes-per-file: 0
+  #max-classes-per-file: 0
   func-names: 0 # Ignore the "func-names" rule
   no-restricted-syntax: 0 # Ignore the "no-restricted-syntax" rule
   no-use-before-define: 0 # Ignore the "no-use-before-define" rule
@@ -18,7 +20,6 @@ rules:
   no-self-compare: 0 # Ignore the "no-self-compare" rule
   eqeqeq: 0 # Ignore the "eqeqeq" rule
   guard-for-in: 0 # Ignore the "guard-for-in" rule
-  no-unused-vars: 0 # Ignore the "no-unused-vars" rule
   prefer-const: 0 # Ignore the "prefer-const" rule
   no-underscore-dangle: 0 # Ignore the "no-underscore-dangle" rule
   no-cond-assign: 0 # Ignore the "no-cond-assign" rule
@@ -42,6 +43,10 @@ rules:
   default-case: 0
   no-sparse-arrays: 0
   no-undef: 0
+  no-unused-vars: 0
+  no-empty: 0
+  @typescript-eslint/ban-ts-ignore: 0
+
 
 
 
