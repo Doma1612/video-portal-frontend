@@ -1,7 +1,20 @@
 tabWidth: 2
 useTabs: true
-printWidth: 80
+printWidth: 100
 semi: true
-trailingComma: es5
+trailingComma: none
 jsxSingleQuote: true
 singleQuote: true
+plugins:
+  - prettier-plugin-svelte
+pluginSearchDirs:
+  - .
+overrides:
+  - files: "*.svelte"
+  options:
+parser: svelte
+ignorePatterns:
+  - "**/src/routes/+layout.svelte"
+  - "**/src/routes/Navbar.svelte"
+  - "**/src/routes/VideoUpload/+page.svelte"
+  - "**/src/routes/themen/+page.svelte"

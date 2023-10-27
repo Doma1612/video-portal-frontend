@@ -7,6 +7,8 @@ export function load({ locals }) {
 	};
 }
 
+export const prerender = true;
+
 // export function load({ locals }) {
 // 	return {
 // 		user: locals.user && {

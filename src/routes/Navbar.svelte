@@ -6,14 +6,14 @@
 		// Hier muss der Suchbegriff dafür verwendet werden, eine Suche nach einem bestimmten Stichwort zuzulassen.
 		// Ein Zugriff auf einen API-Endpunkt der EJB Video muss erfolgen
 	}
+
+	import logo from '$lib/logo_video_portal.png';
 </script>
 
 <div>
 	<nav class="bg-white-500">
 		<div class="max-w-5xl mx-auto flex justify-between items-center">
-			<a href="/"
-				><img src="src/public/images/logo_video_portal.png" alt="Logo" class="w-40 h-22" /></a
-			>
+			<a href="/"> <img src={logo} alt="Logo" class="w-40 h-22" /></a>
 			<div class="flex items-center space-x-20">
 				<ul class="list-none flex space-x-20">
 					<li><a href="/" class="text-black font-bold">Start</a></li>
