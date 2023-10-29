@@ -1,9 +1,14 @@
 <script>
 	import Navbar from '../Navbar.svelte';
+	//import Cookies from 'js-cookie';
 
 	async function videoHochladen() {
-		console.log('Hello');
+		console.log(titel + ' ' + beschreibung + ' ' + stichwoerter);
 	}
+
+	let titel = '';
+	let beschreibung = '';
+	let stichwoerter = '';
 </script>
 
 <div>
@@ -38,17 +43,20 @@
 	<input
 		type="text"
 		placeholder="Titel"
+		bind:value={titel}
 		class="form-input p-2 my-4 border border-gray-300 rounded-lg hover:border-blue-500 focus:border-blue-500"
 	/>
 	<h3 class="text-1xl font-bold text-gray-600">Beschreibung</h3>
 	<input
 		type="text"
 		placeholder="Beschreibung"
+		bind:value={beschreibung}
 		class="form-input p-2 my-4 border border-gray-300 rounded-lg hover:border-blue-500 focus:border-blue-500"
 	/>
 	<h3 class="text-1xl font-bold text-gray-600">Stichwörter</h3>
 	<input
 		type="text"
+		bind:value={stichwoerter}
 		placeholder="Stichwörter (durch Kommas getrennt)"
 		class="form-input p-2 my-4 border border-gray-300 rounded-lg hover:border-blue-500 focus:border-blue-500 my-auto"
 	/>

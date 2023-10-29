@@ -1,14 +1,18 @@
 env:
   browser: true
-  es2021: true
+  es2017: true
+  node: true
 extends: 
   - airbnb-base
-  - prettier
   - plugin:svelte/recommended
+  - eslint:recommended
+  - prettier
 parserOptions:
-  ecmaVersion: latest
+  ecmaVersion: 2020
   sourceType: module
   parser: "@babel/eslint-parser"
+  extraFileExtensions:
+    - .svelte 
 
 
 rules:
@@ -45,7 +49,7 @@ rules:
   no-undef: 0
   no-unused-vars: 0
   no-empty: 0
-  @typescript-eslint/ban-ts-ignore: 0
+
 
 
 

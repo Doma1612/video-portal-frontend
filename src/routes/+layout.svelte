@@ -11,8 +11,8 @@
 
 <nav>
 	{#if $page.data.user}
-		<a href="/kunden">Kundenverwaltung</a>
-		<a href="/konten">Kontenverwaltung</a>
+		<a href="/kunden">Test</a>
+		<a href="/konten">Test</a>
 	{/if}
 </nav>
 
