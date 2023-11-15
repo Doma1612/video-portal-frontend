@@ -1,13 +1,7 @@
 <script>
-	let Suchbegriff = '';
-
-	function videoNachTitelSuchen() {
-		console.log(Suchbegriff);
-		// Hier muss der Suchbegriff dafür verwendet werden, eine Suche nach einem bestimmten Stichwort zuzulassen.
-		// Ein Zugriff auf einen API-Endpunkt der EJB Video muss erfolgen
-	}
-
 	import logo from '$lib/logo_video_portal.png';
+
+	//import Suchleiste from './Suchleiste.svelte';
 </script>
 
 <div>
@@ -33,19 +27,4 @@
 			</div>
 		</div>
 	</nav>
-	<div
-		class=" max-w-5xl mx-auto rounded-full border border-black bg-white-200 p-2 flex hover:bg-gray-200 transition ease-out delay-50 shadow"
-	>
-		<input
-			class="w-full rounded-full bg-transparent focus:outline-none"
-			type="text"
-			placeholder="Suche"
-			bind:value={Suchbegriff}
-		/>
-		<button
-			on:click={videoNachTitelSuchen}
-			class="bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-2 border border-gray-400 rounded-full shadow"
-			>Suchen</button
-		>
-	</div>
 </div>
