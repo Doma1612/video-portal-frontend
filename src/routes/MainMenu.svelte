@@ -8,6 +8,12 @@
 
 	//Endpunkt/{videoID}
 
+	//const form = document.querySelector('form');
+
+	// const formData = new FormData();
+	//const fileField = document.querySelector('input[type="file"]');
+
+	//formData.append("video", fileField.files[0]);
 	//}
 </script>
 
