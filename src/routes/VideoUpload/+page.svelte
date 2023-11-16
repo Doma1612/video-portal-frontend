@@ -1,5 +1,6 @@
 <script>
 	import Navbar from '../Navbar.svelte';
+	import VideoPlayer from '../VideoPlayer.svelte';
 	let titel = '';
 	let beschreibung = '';
 	let stichwoerter = '';
@@ -7,6 +8,7 @@
 	/** @type {FileList}*/
 	let files;
 	let testArrayKategorie = ['Organisatorisches', 'E-Learning', 'Tutorials', 'Onboarding'];
+	let videoSrc = '';
 
 	//Testfunktion
 	//async function sample() {
@@ -37,6 +39,22 @@
 		console.log(json);
 	}
 
+	function handleFileChange(event) {
+		const file = event.target.files[0];
+
+		if (file) {
+			const reader = new FileReader();
+
+			reader.onload = () => {
+				// Set the video source to the data URL
+				videoSrc = reader.result;
+			};
+
+			reader.readAsDataURL(file);
+			console.log(videoSrc);
+		}
+	}
+
 	/* async function getAllKategorien() {
 
 	} */
@@ -57,6 +75,7 @@
 			<input
 				type="file"
 				bind:files
+				on:change={handleFileChange}
 				id="file"
 				accept="video/*"
 				class="form-input p-2 border border-gray-300 rounded-lg hover:border-blue-500 focus:border-blue-500"
@@ -126,4 +145,7 @@
 	</form>
 </div>
 
-<!--on:click={sample}-->
+<VideoPlayer
+	src={videoSrc}
+	poster="https://storage.googleapis.com/gtv-videos-bucket/sample/images/BigBuckBunny.jpg"
+></VideoPlayer>
