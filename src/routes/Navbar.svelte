@@ -13,6 +13,7 @@
 					<li><a href="/" class="text-black font-bold">Start</a></li>
 					<li><a href="/themen" class="text-black font-bold">Themen</a></li>
 					<li><a href="/VideoUpload" class="text-black font-bold">Video hochladen</a></li>
+					<li><a href="/Kategorie" class="text-black font-bold">Kategorien</a></li>
 				</ul>
 			</div>
 			<div>

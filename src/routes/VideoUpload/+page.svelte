@@ -26,17 +26,21 @@
 		console.log(titel + ' ' + beschreibung + ' ' + kategorie + ' ' + stichwoerter);
 
 		const res = await fetch(
-			`http://131.173.88.197:8080/videoPortalREST/api/video/videoHochladen/${files}/${titel}/${beschreibung}/${kategorie}/${stichwoerter}`,
+			`http://131.173.88.197:8080/SP_Video_Portal_REST-0.0.1-SNAPSHOT/api/video/videoHochladen/`,
 			{
-				method: 'GET',
-				//body: formData,
+				method: 'POST',
+				//body: json,
 				headers: {
 					'Content-Type': 'application/json'
 				}
 			}
 		);
-		const json = await res.json();
-		console.log(json);
+
+		if (res.ok) {
+			console.log(res.status);
+		}
+		//const json = await res.json();
+		//console.log(json);
 	}
 
 	function handleFileChange(event) {
@@ -51,6 +55,7 @@
 			};
 
 			reader.readAsDataURL(file);
+			//reader.readAsBinaryString(file);
 			console.log(videoSrc);
 		}
 	}
