@@ -1,2 +1,176 @@
-<!-- Jasmin -->
-<h1>Test Login Seite</h1>
+<!-- Login Methode -->
+
+<!-- 
+<script context="module">
+    import { fail, redirect } from '@sveltejs/kit';
+    import * as api from '$lib/api.js';
+  
+    // @ts-ignore
+    export async function login(request, cookies, locals) {
+      try {
+        const data = await request.formData();
+  
+        const body = await api.postLogin('login', {
+          username: data.get('username'),
+          password: data.get('password')
+        });
+  
+        const ret = await body;
+  
+        if (body.token == "") {
+          return fail(401, body);
+        }
+  
+        locals.user = data.get('username');
+        console.log("data.user=" + data.get('username'));
+        console.log("locals.user=" + locals.user);
+  
+        locals.session = ret.token;
+        cookies.set('user', locals.user, { path: '/' });
+        cookies.set('session', ret.token, { path: '/' });
+  
+        throw redirect(303, '/');
+      } catch (error) {
+        // Fehler
+        console.error('Error during login:', error);
+        return fail(500, { error: 'Internal Server Error' });
+      }
+    }
+  
+    // @ts-ignore
+    export async function logout(cookies, locals) {
+      locals.session = "";
+      locals.user = "";
+      cookies.set('user', "", { path: '/' });
+      cookies.set('session', "", { path: '/' });
+      console.log("logout called");
+  
+      throw redirect(307, '/');
+    }
+</script> -->
+
+<!-- <script>
+
+    import { fail, redirect } from '@sveltejs/kit';
+    import * as api from '$lib/api.js';
+
+    async function login() {
+
+        try {
+            const data = await request.formData();
+
+            /* in '' noch passenden Namen aus dem backend einsetzen */
+            const body = await api.postLogin('login', {
+            username: data.get('username'),
+            password: data.get('password')
+            });
+
+            const ret = await body;
+
+            if (body.token == "") {
+            return fail(401, body);
+            }
+
+            locals.user = data.get('username');
+            console.log("data.user=" + data.get('username'));
+            console.log("locals.user=" + locals.user);
+
+            locals.session = ret.token;
+            // cookies.set('jwt', ret.token, { path: '/' });
+            cookies.set('user', locals.user, { path: '/' });
+            cookies.set('session', ret.token, { path: '/' });
+
+            throw redirect(303, '/');
+        } catch (error) {
+            // Fehler
+            console.error('Error during login:', error);
+            return fail(500, { error: 'Internal Server Error' });
+        }
+
+        
+    }
+
+</script> -->
+
+<script>
+  import Cookies from "js-cookie";
+
+  const userdaten = {
+    // @ts-ignore
+    username,
+    // @ts-ignore
+    password,
+  };
+
+  // @ts-ignore
+  async function login() {
+    try {
+      const response = await fetch(
+        `http://131.173.88.197:8080/SP_Video_Portal_REST-0.0.1-SNAPSHOT/api/users/login`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ userdaten }),
+        },
+      );
+
+      console.log(response);
+      if (response.ok) {
+        /* wenn Login erfolgreich war */
+        const data = await response.json();
+        const jwt = data.token;
+        /* Cookies setzen */
+        Cookies.set("jwt", jwt);
+
+        console.log("Login erfolgreich");
+      } else {
+        console.log("Login fehlgeschlagen");
+      }
+    } catch (error) {
+      console.error("Fehler ist aufgetreten: ", error);
+    }
+  }
+</script>
+
+<!-- Benutzeroberfäche -->
+<!-- bei username und passwort muss noch die entsprechende Variable eingesetzt werden und beim Passwort der type evtl zu password geändert werden-->
+<body>
+  <div class="flex justify-center items-center h-screen bg-blue-500">
+    <div class="w-96 p-6 shadow-lg bg-white rounded-md">
+      <h1 class="text-3xl block text-center font-semibold">Login</h1>
+      <hr class="mt-3" />
+      <div class="mt-3">
+        <label for="username" class="block text-base mb-2">Benutzername</label>
+        <input
+          type="text"
+          id="username"
+          class="border w-full text-base px-2 py-1 focus:outline-none focus:ring-0 focus:border-gray-600"
+          placeholder="Benutzername eingeben..."
+        />
+      </div>
+      <div class="mt-3">
+        <label for="passwort" class="block text-base mb-2">Passwort</label>
+        <input
+          type="text"
+          id="pwasswort"
+          class="border w-full text-base px-2 py-1 focus:outline-none focus:ring-0 focus:border-gray-600"
+          placeholder="Passwort eingeben..."
+        />
+      </div>
+      <div class="mt-5">
+        <!--<button type="submit" class="border-2 border-indigo-700 bg-blue-500 text-white py-1 w-full rounded-mg hover:bg-transparent 
+                    hover:text-blue-500 font-semibold">Login</button> -->
+
+        <button
+          type="submit"
+          class="border-2 border-indigo-700 bg-blue-500 text-white py-1 w-full rounded-mg hover:bg-transparent hover:text-blue-500 font-semibold"
+          on:click={login}>Login</button
+        >
+      </div>
+    </div>
+  </div>
+</body>
+<!-- 2 Inputfelder und ein Button, der die Methode aufruft-->
+<!-- Quelle: Youtube: How To Make Login Page Using Tailwind | Create Login Form Using Tailwind CSS For Beginners-->
