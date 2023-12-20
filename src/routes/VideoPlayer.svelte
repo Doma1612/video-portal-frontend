@@ -1,7 +1,7 @@
 <!-- VideoPlayer.svelte -->
 <script>
 	export let src = '';
-	export let poster = '';
+
 	//let videoID = 0;
 	//	let mehrAnzeigen = false;
 
@@ -26,6 +26,7 @@
 
 <div class="video-player">
 	<!-- Hier muss noch Titel, Bescheibung, Aufrufe rein-->
+	<!-- {poster} -->
 	<h1 class="text-2xl font-bold text-gray-600">Test</h1>
 	<!-- svelte-ignore a11y-media-has-caption -->
 	<video
@@ -33,7 +34,6 @@
 		controls
 		preload="metadata"
 		{src}
-		{poster}
 		on:click={() => aufrufeZaehlen()}
 	></video>
 
