@@ -1,19 +1,52 @@
 <script>
 	import Navbar from '../Navbar.svelte';
-	let newCategoryName = '';
+	let name = '';
 	let kategorieID = 0;
+	let unterkategorieName = '';
+	let id = 0;
+	let themenName = '';
 	let kategorie = '';
-	let testArrayKategorie = ['Organisatorisches', 'E-Learning', 'Tutorials', 'Onboarding'];
+	let kategorien = [];
+	const newCategory = {
+		name,
+		unterkategorien: []
+	};
+
+	const newUnterkategorie = {
+		name,
+		thema: {
+			id,
+			name,
+			unterkategorien: []
+		}
+	};
+
+	const updateCategory = {
+		name: name,
+		unterkategorien: []
+	};
+
+	async function getAllKategorien() {
+		const response = await fetch(
+			`http://131.173.88.197:8080/SP_Video_Portal_REST-0.0.1-SNAPSHOT/api/video/ladeAlleThemen`
+		);
+		const responseData = await response.json();
+		kategorien = responseData;
+		console.log(kategorien);
+	}
 
 	async function kategorieHinzufuegen() {
+		console.log(newCategory);
+
 		try {
 			const response = await fetch(
-				`http://localhost:8080/videoPortal/api/kategorieHinzufuegen/${kategorie}`,
+				`http://131.173.88.197:8080/SP_Video_Portal_REST-0.0.1-SNAPSHOT/api/video/themaAnlegen`,
 				{
-					method: 'GET',
+					method: 'POST',
 					headers: {
 						'Content-Type': 'application/json'
-					}
+					},
+					body: JSON.stringify({ newCategory })
 				}
 			);
 
@@ -30,14 +63,16 @@
 	}
 
 	async function kategorieAendern() {
+		console.log(kategorieID + ' ' + name);
 		try {
 			const response = await fetch(
-				`http://localhost:8080/videoPortal/api/kategorieAendern/${kategorieID}/${newCategoryName}`,
+				`http://131.173.88.197:8080/SP_Video_Portal_REST-0.0.1-SNAPSHOT/api/video/themaUpdate`,
 				{
-					method: 'GET',
+					method: 'POST',
 					headers: {
 						'Content-Type': 'application/json'
-					}
+					},
+					body: JSON.stringify({ updateCategory })
 				}
 			);
 
@@ -54,9 +89,10 @@
 	}
 
 	async function kategorieLoeschen() {
+		console.log(kategorie);
 		try {
 			const response = await fetch(
-				`http://localhost:8080/videoPortal/api/kategorieLoeschen/${kategorieID}`,
+				`http://131.173.88.197:8080/SP_Video_Portal_REST-0.0.1-SNAPSHOT/api/video/themaLoeschen/${kategorieID}`,
 				{
 					method: 'GET',
 					headers: {
@@ -76,6 +112,32 @@
 			console.error('kategorieLoeschen() - Fehler ist aufgetreten: ', error);
 		}
 	}
+
+	async function unterkategorieHinzufuegen() {
+		console.log(unterkategorieName + ' ' + id + ' ' + themenName);
+		try {
+			const response = await fetch(
+				`http://131.173.88.197:8080/SP_Video_Portal_REST-0.0.1-SNAPSHOT/api/video/uKategorieAnlegen`,
+				{
+					method: 'POST',
+					headers: {
+						'Content-Type': 'application/json'
+					},
+					body: JSON.stringify({ newUnterkategorie })
+				}
+			);
+
+			console.log(response);
+
+			if (response.ok) {
+				console.log('Unterkategorie erfolgreich angelegt');
+			} else {
+				console.log('Fehler beim Anlegen der Unterkategorie');
+			}
+		} catch (error) {
+			console.error('unterkategorieHinzufuegen() -Fehler ist aufgetreten: ', error);
+		}
+	}
 </script>
 
 <Navbar />
@@ -87,33 +149,33 @@
 	<h3 class="text-xl font-bold text-gray-600">Kategorie hinzufügen</h3>
 	<input
 		class="form-input p-2 border border-gray-300 rounded-lg hover:border-blue-500 focus:border-blue-500"
-		bind:value={newCategoryName}
+		bind:value={name}
 		placeholder="Neue Kategorie eingeben"
 	/>
 	<button
 		class="p-2 bg-blue-500 text-white hover:bg-blue-700 rounded-lg mt-2 sm:mt-4 sm:float-right"
 		on:click={kategorieHinzufuegen}>Hinzufügen</button
 	>
-
 	<br /><br />
 
 	<!-- Kategorien ändern-->
 	<h3 class="text-xl font-bold text-gray-600">Kategorie umbenennen</h3>
 	<select
 		name="kategorie"
-		bind:value={kategorie}
+		bind:value={kategorieID}
+		on:click={() => getAllKategorien()}
 		id="kategorie"
 		class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
 	>
 		<option value="" disabled selected>Wähle eine Kategorie</option>
-		{#each testArrayKategorie as Kategorie}
-			<option value={Kategorie}>{Kategorie}</option>
+		{#each kategorien as Kategorie}
+			<option value={Kategorie.id}>{Kategorie.name}</option>
 		{/each}
 	</select>
 
 	<input
 		class=" w-1/2 form-input p-2 border border-gray-300 rounded-lg hover:border-blue-500 focus:border-blue-500"
-		bind:value={newCategoryName}
+		bind:value={name}
 		placeholder="Neuen Kategorienamen eingeben"
 	/>
 	<button
@@ -126,18 +188,48 @@
 	<h3 class="text-xl font-bold text-gray-600">Kategorie löschen</h3>
 	<select
 		name="kategorie"
-		bind:value={kategorie}
+		bind:value={kategorieID}
+		on:click={() => getAllKategorien()}
+		on:change
 		id="kategorie"
 		class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
 	>
 		<option value="" disabled selected>Wähle eine Kategorie</option>
-		{#each testArrayKategorie as Kategorie}
-			<option value={Kategorie}>{Kategorie}</option>
+		{#each kategorien as Kategorie}
+			<option value={Kategorie.id}>{Kategorie.name}</option>
 		{/each}
 	</select>
 
 	<button
 		class="p-2 bg-red-500 text-white hover:bg-blue-700 rounded-lg mt-2 sm:mt-4 sm:float-right"
 		on:click={kategorieLoeschen}>Löschen</button
+	>
+
+	<br /><br />
+	<h3 class="text-xl font-bold text-gray-600">Unterkategorie anlegen</h3>
+	<select
+		name="kategorie"
+		bind:value={id}
+		on:click={() => getAllKategorien()}
+		on:change
+		id="kategorie"
+		class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+	>
+		<option value="" disabled selected>Wähle eine Kategorie</option>
+
+		{#each kategorien as Kategorie}
+			<option value={Kategorie.id}>{Kategorie.name}</option>
+		{/each}
+	</select>
+
+	<input
+		class=" w-1/2 form-input p-2 border border-gray-300 rounded-lg hover:border-blue-500 focus:border-blue-500"
+		bind:value={unterkategorieName}
+		placeholder="Unterkategorie hinzufügen"
+	/>
+
+	<button
+		class="p-2 bg-green-500 text-white hover:bg-blue-700 rounded-lg mt-2 sm:mt-4 sm:float-right"
+		on:click={unterkategorieHinzufuegen}>Anlegen</button
 	>
 </div>
