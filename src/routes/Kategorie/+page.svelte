@@ -2,13 +2,12 @@
 	import Navbar from '../Navbar.svelte';
 	let name = '';
 	let kategorieID = 0;
-	let unterkategorieName = '';
 	let id = 0;
-	let themenName = '';
 	let kategorie = '';
 	let kategorien = [];
+
 	const newCategory = {
-		name,
+		name: '',
 		unterkategorien: []
 	};
 
@@ -16,16 +15,31 @@
 		name,
 		thema: {
 			id,
-			name,
+			name: 'Weihnachten',
 			unterkategorien: []
 		}
 	};
 
 	const updateCategory = {
-		name: name,
+		id,
+		name,
 		unterkategorien: []
 	};
 
+	function auswahlThema() {
+		const selectedCategoryId = id;
+		const selectedKategorie = kategorien.find((k) => k.id === selectedCategoryId);
+
+		if (selectedKategorie) {
+			newUnterkategorie.thema.id = selectedKategorie.id;
+			newUnterkategorie.thema.name = selectedKategorie.name;
+
+			console.log('Name: ' + newUnterkategorie.name);
+			console.log('ThemaID: ' + newUnterkategorie.thema.id);
+			console.log('Name Thema: ' + newUnterkategorie.thema.name);
+			console.log('unterkat: ' + newUnterkategorie.thema.unterkategorien);
+		}
+	}
 	async function getAllKategorien() {
 		const response = await fetch(
 			`http://131.173.88.197:8080/SP_Video_Portal_REST-0.0.1-SNAPSHOT/api/video/ladeAlleThemen`
@@ -36,6 +50,7 @@
 	}
 
 	async function kategorieHinzufuegen() {
+		newCategory.name = name;
 		console.log(newCategory);
 
 		try {
@@ -46,7 +61,7 @@
 					headers: {
 						'Content-Type': 'application/json'
 					},
-					body: JSON.stringify({ newCategory })
+					body: JSON.stringify(newCategory)
 				}
 			);
 
@@ -63,7 +78,10 @@
 	}
 
 	async function kategorieAendern() {
-		console.log(kategorieID + ' ' + name);
+		updateCategory.name = name;
+		updateCategory.id = id;
+		//updateCategory.unterkategorien = unterkategorien;
+		console.log(updateCategory.name + updateCategory.id);
 		try {
 			const response = await fetch(
 				`http://131.173.88.197:8080/SP_Video_Portal_REST-0.0.1-SNAPSHOT/api/video/themaUpdate`,
@@ -72,7 +90,7 @@
 					headers: {
 						'Content-Type': 'application/json'
 					},
-					body: JSON.stringify({ updateCategory })
+					body: JSON.stringify(updateCategory)
 				}
 			);
 
@@ -114,7 +132,14 @@
 	}
 
 	async function unterkategorieHinzufuegen() {
-		console.log(unterkategorieName + ' ' + id + ' ' + themenName);
+		newUnterkategorie.name = name;
+		newUnterkategorie.thema.id = id;
+		//newUnterkategorie.thema.name = thema.name; //umbenennen intern
+		//newUnterkategorie.thema.unterkategorien = unterkategorien;
+		console.log('Name ' + newUnterkategorie.name);
+		console.log('ThemaID: ' + newUnterkategorie.thema.id);
+		console.log('Name Thema: ' + newUnterkategorie.thema.name);
+		console.log('unterkat: ' + newUnterkategorie.thema.unterkategorien);
 		try {
 			const response = await fetch(
 				`http://131.173.88.197:8080/SP_Video_Portal_REST-0.0.1-SNAPSHOT/api/video/uKategorieAnlegen`,
@@ -162,8 +187,9 @@
 	<h3 class="text-xl font-bold text-gray-600">Kategorie umbenennen</h3>
 	<select
 		name="kategorie"
-		bind:value={kategorieID}
+		bind:value={id}
 		on:click={() => getAllKategorien()}
+		on:change={auswahlThema}
 		id="kategorie"
 		class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
 	>
@@ -211,7 +237,7 @@
 		name="kategorie"
 		bind:value={id}
 		on:click={() => getAllKategorien()}
-		on:change
+		on:change={auswahlThema}
 		id="kategorie"
 		class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
 	>
@@ -224,7 +250,7 @@
 
 	<input
 		class=" w-1/2 form-input p-2 border border-gray-300 rounded-lg hover:border-blue-500 focus:border-blue-500"
-		bind:value={unterkategorieName}
+		bind:value={name}
 		placeholder="Unterkategorie hinzufügen"
 	/>
 
