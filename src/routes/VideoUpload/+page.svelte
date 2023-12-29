@@ -3,10 +3,13 @@
 	import VideoPlayer from '../VideoPlayer.svelte';
 	let titel = '';
 	let beschreibung = '';
+	let selectedCategoryId = null;
 	let stichwoerter = '';
 	let kategorie = '';
+	let unterkategorie = '';
 	let file;
-	let unterkategorien = 'Test';
+	//let unterkategorien = 'Test';
+	let unterkategorien = [];
 	let dateiEndung = 'mp4';
 	/** @type {FileList}*/
 	let files;
@@ -21,6 +24,15 @@
 		kategorien = responseData;
 		console.log(kategorien);
 	}
+
+	async function getAllUntrkategorien() {
+		const response = await fetch(
+			'http://131.173.88.197:8080/SP_Video_Portal_REST-0.0.1-SNAPSHOT/api/video/ladeAlleUnterkategorien'
+		);
+		const responseData = await response.json();
+		unterkategorien = responseData;
+		console.log(unterkategorien);
+	}
 	async function videoUpload() {
 		console.log(titel + ' ' + beschreibung + ' ' + kategorie + ' ' + stichwoerter);
 
@@ -32,7 +44,7 @@
 				const bitUnit8 = new Uint8Array(bitarray);
 				console.log('BIT:  ' + bitUnit8);
 				await fetch(
-					`http://131.173.88.197:8080/SP_Video_Portal_REST-0.0.1-SNAPSHOT/api/video/videoHinzufuegen/${dateiEndung}/${titel}/${kategorie}/${beschreibung}/${stichwoerter}/${unterkategorien}`,
+					`http://131.173.88.197:8080/SP_Video_Portal_REST-0.0.1-SNAPSHOT/api/video/videoHinzufuegen/${dateiEndung}/${titel}/${kategorie}/${beschreibung}/${stichwoerter}/${unterkategorie}`,
 					{
 						method: 'POST',
 						headers: {
@@ -57,6 +69,13 @@
 
 			reader.readAsArrayBuffer(file);
 		}
+	}
+
+	function updateSelectedCategoryId() {
+		const selectedKategorie = kategorien.find((kat) => kat.name === kategorie);
+
+		selectedCategoryId = selectedKategorie && selectedKategorie.id;
+		console.log(selectedCategoryId);
 	}
 
 	/* 
@@ -163,12 +182,30 @@
 			name="kategorie"
 			bind:value={kategorie}
 			on:click={() => getAllKategorien()}
+			on:change={() => updateSelectedCategoryId()}
 			id="kategorie"
 			class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
 		>
 			<option value="" disabled selected>Wähle eine Kategorie</option>
 			{#each kategorien as Kategorie}
 				<option value={Kategorie.name}>{Kategorie.name}</option>
+			{/each}
+		</select>
+
+		<h3 class="text-xl font-bold text-gray-600">Suche eine Unterkategorie aus:</h3>
+
+		<select
+			name="unterkategorie"
+			bind:value={unterkategorie}
+			on:click={() => getAllUntrkategorien()}
+			id="kategorie"
+			class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+		>
+			<option value="" disabled selected>Wähle eine Unterkategorie</option>
+			{#each unterkategorien as unterkategorie}
+				{#if unterkategorie.thema.id == selectedCategoryId}
+					<option value={unterkategorie.name}>{unterkategorie.name}</option>
+				{/if}
 			{/each}
 		</select>
 		<h3 class="text-xl font-bold text-gray-600">Stichwörter</h3>
