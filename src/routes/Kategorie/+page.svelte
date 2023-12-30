@@ -15,7 +15,7 @@
 		name,
 		thema: {
 			id,
-			name: 'Weihnachten',
+			name,
 			unterkategorien: []
 		}
 	};
@@ -33,11 +33,6 @@
 		if (selectedKategorie) {
 			newUnterkategorie.thema.id = selectedKategorie.id;
 			newUnterkategorie.thema.name = selectedKategorie.name;
-
-			console.log('Name: ' + newUnterkategorie.name);
-			console.log('ThemaID: ' + newUnterkategorie.thema.id);
-			console.log('Name Thema: ' + newUnterkategorie.thema.name);
-			console.log('unterkat: ' + newUnterkategorie.thema.unterkategorien);
 		}
 	}
 	async function getAllKategorien() {
@@ -80,7 +75,6 @@
 	async function kategorieAendern() {
 		updateCategory.name = name;
 		updateCategory.id = id;
-		//updateCategory.unterkategorien = unterkategorien;
 		console.log(updateCategory.name + updateCategory.id);
 		try {
 			const response = await fetch(
@@ -134,8 +128,6 @@
 	async function unterkategorieHinzufuegen() {
 		newUnterkategorie.name = name;
 		newUnterkategorie.thema.id = id;
-		//newUnterkategorie.thema.name = thema.name; //umbenennen intern
-		//newUnterkategorie.thema.unterkategorien = unterkategorien;
 		console.log('Name ' + newUnterkategorie.name);
 		console.log('ThemaID: ' + newUnterkategorie.thema.id);
 		console.log('Name Thema: ' + newUnterkategorie.thema.name);
@@ -148,7 +140,7 @@
 					headers: {
 						'Content-Type': 'application/json'
 					},
-					body: JSON.stringify({ newUnterkategorie })
+					body: JSON.stringify(newUnterkategorie)
 				}
 			);
 
@@ -250,7 +242,7 @@
 
 	<input
 		class=" w-1/2 form-input p-2 border border-gray-300 rounded-lg hover:border-blue-500 focus:border-blue-500"
-		bind:value={name}
+		bind:value={newUnterkategorie.name}
 		placeholder="Unterkategorie hinzufügen"
 	/>
 
