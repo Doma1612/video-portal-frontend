@@ -3,7 +3,7 @@
 <script>
 </script>
 
-<footer class="bg-gray-500 text-white p-20">
+<footer class="bg-white-500 text-gray p-20">
   <div class="max-w-5xl mx-auto flex justify-between items-center">
     <div>
       <p>&copy; 2023 DLJP Video-Portal</p>

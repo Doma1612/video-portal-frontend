@@ -1,5 +1,6 @@
 <script>
-	import Navbar from '../Navbar.svelte';
+	import Footer from '../Footer.svelte';
+import Navbar from '../Navbar.svelte';
 	let name = '';
 	let kategorieID = 0;
 	let id = 0;
@@ -48,6 +49,11 @@
 		newCategory.name = name;
 		console.log(newCategory);
 
+		if (!name) {
+      window.alert('Bitte gebe einen Kategorienamne ein!');
+      return;
+		}
+
 		try {
 			const response = await fetch(
 				`http://131.173.88.197:8080/SP_Video_Portal_REST-0.0.1-SNAPSHOT/api/video/themaAnlegen`,
@@ -76,6 +82,10 @@
 		updateCategory.name = name;
 		updateCategory.id = id;
 		console.log(updateCategory.name + updateCategory.id);
+		if (!name || !id ) {
+      window.alert('Wähle eine Katgeorie und einen neuen Namen aus!');
+      return;
+		}
 		try {
 			const response = await fetch(
 				`http://131.173.88.197:8080/SP_Video_Portal_REST-0.0.1-SNAPSHOT/api/video/themaUpdate`,
@@ -102,6 +112,10 @@
 
 	async function kategorieLoeschen() {
 		console.log(kategorie);
+
+		if(!kategorieID) {
+			window.alert("Wähle zunächst eine Kategorie aus!")
+		}
 		try {
 			const response = await fetch(
 				`http://131.173.88.197:8080/SP_Video_Portal_REST-0.0.1-SNAPSHOT/api/video/themaLoeschen/${kategorieID}`,
@@ -132,6 +146,14 @@
 		console.log('ThemaID: ' + newUnterkategorie.thema.id);
 		console.log('Name Thema: ' + newUnterkategorie.thema.name);
 		console.log('unterkat: ' + newUnterkategorie.thema.unterkategorien);
+
+		if(!id) {
+			window.alert("Wähle zunächst eine Unterkategorie aus!");
+		}
+
+		if(!newUnterkategorie.name) {
+			window.alert("Gebe eine Unterkategorie ein!")
+		}
 		try {
 			const response = await fetch(
 				`http://131.173.88.197:8080/SP_Video_Portal_REST-0.0.1-SNAPSHOT/api/video/uKategorieAnlegen`,
@@ -251,3 +273,4 @@
 		on:click={unterkategorieHinzufuegen}>Anlegen</button
 	>
 </div>
+<Footer />

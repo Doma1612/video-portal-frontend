@@ -16,12 +16,12 @@
 
 <div class="header">
 	<Navbar />
-	<Suchleiste />
+	<!--<Suchleiste /> -->
 </div>
 
 <div class="mt-10 body">
 	<MainMenu on:istSuchbegriffEingegeben={handleSuchbegriffEingegeben} />
-	<h1>{istSuchbegriffEingegeben}</h1>
+	
 </div>
 
 <div>
