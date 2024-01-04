@@ -93,6 +93,8 @@
 </script> -->
 
 <script>
+  let username ='';
+  let password = '';
   import Cookies from "js-cookie";
 
   const userdaten = {
@@ -112,17 +114,18 @@
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({ userdaten }),
+          body: JSON.stringify( userdaten ),
         },
       );
-
+      console.log(username + ' '+ password);
       console.log(response);
       if (response.ok) {
         /* wenn Login erfolgreich war */
-        const data = await response.json();
-        const jwt = data.token;
+        const data = await response.text();
+        console.log(data);
+      //  const JSESSIONID = data.token;
         /* Cookies setzen */
-        Cookies.set("jwt", jwt);
+       // Cookies.set("SessionID", JSESSIONID);
 
         console.log("Login erfolgreich");
       } else {
@@ -145,6 +148,7 @@
         <label for="username" class="block text-base mb-2">Benutzername</label>
         <input
           type="text"
+          bind:value={userdaten.username}
           id="username"
           class="border w-full text-base px-2 py-1 focus:outline-none focus:ring-0 focus:border-gray-600"
           placeholder="Benutzername eingeben..."
@@ -154,7 +158,8 @@
         <label for="passwort" class="block text-base mb-2">Passwort</label>
         <input
           type="text"
-          id="pwasswort"
+          bind:value={userdaten.password}
+          id="passwort"
           class="border w-full text-base px-2 py-1 focus:outline-none focus:ring-0 focus:border-gray-600"
           placeholder="Passwort eingeben..."
         />
