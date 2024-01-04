@@ -1,4 +1,7 @@
 <script>
+    import Footer from "../Footer.svelte";
+import Navbar from "../Navbar.svelte";
+
     let username = '';
     let password = '';
 
@@ -41,13 +44,13 @@
 
     
 </script>
-
+<Navbar />
 <!-- Benutzeroberfäche -->
 <!-- bei username und passwort muss noch die entsprechende Variable eingesetzt werden und beim Passwort der type evtl zu password geändert werden-->
 <body>
-    <div class="flex justify-center items-center h-screen bg-blue-500">
+    <div class="flex justify-center items-center h-screen bg-blue-200">
         <div class="w-96 p-6 shadow-lg bg-white rounded-md">
-            <h1 class="text-3xl block text-center font-semibold">Registierung</h1>
+            <h1 class="text-3xl block text-center font-semibold">Registrierung</h1>
             <hr class="mt-3">
             <div class="mt-3">
                 <label for="username" class="block text-base mb-2">Benutzername</label>
@@ -62,11 +65,12 @@
                 type="submit"
                 class="border-2 border-indigo-700 bg-blue-500 text-white py-1 w-full rounded-mg hover:bg-transparent hover:text-blue-500 font-semibold"
                 on:click={registrieren}
-                >registrieren</button>
+                >Registrieren</button>
             
             </div>
         </div>
     </div>
 </body>
+<Footer />
 <!-- 2 Inputfelder und ein Button, der die Methode aufruft-->
 <!-- Quelle: Youtube: How To Make Login Page Using Tailwind | Create Login Form Using Tailwind CSS For Beginners-->

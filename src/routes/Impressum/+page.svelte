@@ -1,3 +1,8 @@
+<script>
+    import Navbar from "../Navbar.svelte";
+
+</script>
+<Navbar />
 <body>
     <div class=" items-center flex justify-center h-screen">
         <div class="w-96 p-6 shadow-lg bg-white rounded-md">
