@@ -1,13 +1,15 @@
 <script>
 	import Navbar from '../Navbar.svelte';
 	//	import Suchleiste from '../Suchleiste.svelte';
-	import MainMenu from '../MainMenu.svelte';
-
+	//let videoID = 0;
+	let videoBlob = '';
+	let videoURL = '';
 	let Suchbegriff = '';
 	let inputSuchbegriff = '';
 	let sucheGestartet = false;
-	//let gefundeneVideos = [];
-	//	import { onMount } from 'svelte';
+	let gefundeneVideos = [];
+	import VideoPlayer from '../VideoPlayer.svelte';
+	//import { onMount } from 'svelte';
 
 	export let istSuchbegriffEingegeben = false;
 
@@ -17,25 +19,25 @@
 		sucheGestartet = true;
 		console.log(istSuchbegriffEingegeben);
 
-		//http://api.apis.guru/v2/list.json
+		const response = await fetch(
+			`http://131.173.88.197:8080/SP_Video_Portal_REST-0.0.1-SNAPSHOT/api/video/ladeVideosNachSuche/${inputSuchbegriff}`
+		);
+		const responseData = await response.json();
+		gefundeneVideos = responseData;
+		console.log(gefundeneVideos);
+	}
 
-		//const reponse = await fetch(`http://localhost:8080/Endpunkt/${inputSuchbegriff}`);
-		//const responseData = await response.json();
-		//gefundeneVideos = responseData;
-		//console.log(gefundeneVideos);
+	async function getVideoByteStreamById(videoID) {
+		const response = await fetch(
+			`http://131.173.88.197:8080/SP_Video_Portal_REST-0.0.1-SNAPSHOT/api/video/ladeVideo/${videoID}`
+		);
 
-		//	method: 'GET',
+		videoBlob = await response.blob();
+		//console.log(videoBlob);
+		videoURL = URL.createObjectURL(videoBlob);
 
-		//	headers: {
-		//		'Content-Type': 'application/json',
-		//	},
-		//	body: JSON.stringify({Suchbegriff}),
-		//}).then(response => response.json))}
-		//.then(data => {
-		//Test
-		//}).catch(error =>)
-		// Hier muss der Suchbegriff dafür verwendet werden, eine Suche nach einem bestimmten Stichwort zuzulassen.
-		// Ein Zugriff auf einen API-Endpunkt der EJB Video muss erfolgen
+		//console.log(videoURL);
+		return videoURL;
 	}
 </script>
 
@@ -61,11 +63,14 @@
 	<div class="max-w-5xl mx-auto bg-white-200 p-2 flex transition ease-out delay-50"></div>
 	<h1 class="text-3xl font-bold text-gray-600 text-center">Videos zum Thema {Suchbegriff}</h1>
 
-	<!-- {#each gefundeneVideos as video (video.id)}
-    <VideoPlayer src={video.src} poster={video.poster}></VideoPlayer>
-  {/each}
-   -->
-	<MainMenu />
+	{#each gefundeneVideos as video}
+		{#await getVideoByteStreamById(video.videoId) then videoURLFromPromise}
+			{#if videoURLFromPromise}
+				{(videoURL = videoURLFromPromise)}
+				<VideoPlayer src={videoURL}></VideoPlayer>
+			{/if}
+		{/await}
+	{/each}
 {:else}
 	<div></div>
 {/if}
