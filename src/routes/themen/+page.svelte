@@ -1,9 +1,13 @@
 <script>
-	import Navbar from '../Navbar.svelte';
+	import Footer from '../Footer.svelte';
+import Navbar from '../Navbar.svelte';
 	//	import Suchleiste from '../Suchleiste.svelte';
 	//let videoID = 0;
 	let videoBlob = '';
 	let videoURL = '';
+	let videoName = '';
+	let aufrufAnzahl = '';
+	let beschreibung = '';
 	let Suchbegriff = '';
 	let inputSuchbegriff = '';
 	let sucheGestartet = false;
@@ -22,9 +26,13 @@
 		const response = await fetch(
 			`http://131.173.88.197:8080/SP_Video_Portal_REST-0.0.1-SNAPSHOT/api/video/ladeVideosNachSuche/${inputSuchbegriff}`
 		);
+
+		
 		const responseData = await response.json();
 		gefundeneVideos = responseData;
 		console.log(gefundeneVideos);
+
+		
 	}
 
 	async function getVideoByteStreamById(videoID) {
@@ -35,6 +43,7 @@
 		videoBlob = await response.blob();
 		//console.log(videoBlob);
 		videoURL = URL.createObjectURL(videoBlob);
+	    
 
 		//console.log(videoURL);
 		return videoURL;
@@ -60,19 +69,29 @@
 </div>
 
 {#if istSuchbegriffEingegeben && sucheGestartet}
-	<div class="max-w-5xl mx-auto bg-white-200 p-2 flex transition ease-out delay-50"></div>
-	<h1 class="text-3xl font-bold text-gray-600 text-center">Videos zum Thema {Suchbegriff}</h1>
-
+	<!-- <div class="max-w-5xl mx-auto bg-white-200 p-2 flex transition ease-out delay-50"></div> -->
+    
+	<h1 class="text-3xl font-bold text-gray-600 text-center">Videos zum Suchbegriff {Suchbegriff}</h1>
+    <div class="max-w-2xl mx-auto flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4 lg:space-x-12">
 	{#each gefundeneVideos as video}
+	<!-- {(videoName = video.name)} -->
+	<!-- {(aufrufAnzahl = video.anzahlAufrufe)} -->
+	
 		{#await getVideoByteStreamById(video.videoId) then videoURLFromPromise}
 			{#if videoURLFromPromise}
-				{(videoURL = videoURLFromPromise)}
-				<VideoPlayer src={videoURL}></VideoPlayer>
+				<!-- {(videoURL = videoURLFromPromise)} --><!-- Deswegen Blob!!-->
+				<!-- videoName = video. -->
+				<VideoPlayer {video} aufrufe= {(aufrufAnzahl = video.anzahlAufrufe)} name={(videoName = video.name)} beschreibung={(beschreibung= video.beschreibung)}  src={videoURL} ></VideoPlayer> <!-- name={videoName} aufrufe={aufrufAnzahl}-->
 			{/if}
 		{/await}
 	{/each}
+	</div>
 {:else}
 	<div></div>
+{/if}
+
+{#if istSuchbegriffEingegeben && sucheGestartet}
+<Footer />
 {/if}
 
 <!-- Suche muss in Main ein Ergebnis ausgeben-->

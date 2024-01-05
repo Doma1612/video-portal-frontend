@@ -1,5 +1,6 @@
 <script>
-	import Navbar from '../Navbar.svelte';
+	import Footer from '../Footer.svelte';
+import Navbar from '../Navbar.svelte';
 	import VideoPlayer from '../VideoPlayer.svelte';
 	let titel = '';
 	let beschreibung = '';
@@ -10,7 +11,7 @@
 	let file;
 	//let unterkategorien = 'Test';
 	let unterkategorien = [];
-	let dateiEndung = 'mp4';
+	let dateiEndung = '';
 	/** @type {FileList}*/
 	let files;
 	let kategorien = [];
@@ -25,6 +26,11 @@
 		console.log(kategorien);
 	}
 
+	async function dateiEndungHolen(datei) {
+		
+		return datei.split('.').pop().toLowerCase();
+	}
+
 	async function getAllUntrkategorien() {
 		const response = await fetch(
 			'http://131.173.88.197:8080/SP_Video_Portal_REST-0.0.1-SNAPSHOT/api/video/ladeAlleUnterkategorien'
@@ -34,15 +40,22 @@
 		console.log(unterkategorien);
 	}
 	async function videoUpload() {
-		console.log(titel + ' ' + beschreibung + ' ' + kategorie + ' ' + stichwoerter);
-
+		console.log(titel + ' ' + beschreibung + ' ' + kategorie + ' ' + stichwoerter + ' '+ dateiEndung);
+        if (!titel || !beschreibung || !kategorie || !stichwoerter) {
+      window.alert('Nicht alle Felder wurden ausgefüllt!');
+      return;
+		}
 		if (file) {
 			const reader = new FileReader();
+
+			
 
 			reader.onload = async () => {
 				const bitarray = reader.result;
 				const bitUnit8 = new Uint8Array(bitarray);
 				console.log('BIT:  ' + bitUnit8);
+				//dateiEndung = dateiEndungHolen(file);
+				console.log(dateiEndung)
 				await fetch(
 					`http://131.173.88.197:8080/SP_Video_Portal_REST-0.0.1-SNAPSHOT/api/video/videoHinzufuegen/${dateiEndung}/${titel}/${kategorie}/${beschreibung}/${stichwoerter}/${unterkategorie}`,
 					{
@@ -56,8 +69,14 @@
 					.then(async (response) => {
 						if (response.ok) {
 							console.log('Video wurde hochgeladen');
+							const confirmed = window.confirm('Video wurde erfolgreich hochgeladen! Möchten Sie die Seite neu laden?');
+
+							if (confirmed) {
+                            window.location.reload(); // 
+            }
 						} else {
 							console.error('Fehler beim VideoUpload');
+							window.alert("Fehler beim Uplaod. Versuchen Sie es erneut.")
 						}
 					})
 					.catch((error) => {
@@ -103,7 +122,7 @@
 		//console.log(json);
 	} */
 
-	function handleFileChange(event) {
+	async function handleFileChange(event) {
 		file = event.target.files[0];
 
 		if (file) {
@@ -113,6 +132,9 @@
 				videoSrc = reader.result;
 			};
 			reader.readAsDataURL(file);
+
+			dateiEndung = await dateiEndungHolen(file.name);
+            console.log('Dateiendung :', dateiEndung);
 			//convertedFile = new Uint8Array(event.target.files[0]);
 			//console.log(convertedFile);
 			//reader.readAsBinaryString(file);
@@ -138,7 +160,7 @@
 				bind:files
 				on:change={handleFileChange}
 				id="file"
-				accept="video/mp4"
+				accept="video/*"
 				class="form-input p-2 border border-gray-300 rounded-lg hover:border-blue-500 focus:border-blue-500"
 				required
 			/>
@@ -223,8 +245,4 @@
 		>
 	</form>
 </div>
-
-<VideoPlayer
-	src={videoSrc}
-	poster="https://storage.googleapis.com/gtv-videos-bucket/sample/images/BigBuckBunny.jpg"
-></VideoPlayer>
+<Footer />
