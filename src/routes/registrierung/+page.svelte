@@ -1,9 +1,11 @@
 <script>
     import Footer from "../Footer.svelte";
 import Navbar from "../Navbar.svelte";
+import { goto } from '$app/navigation';
 
     let username = '';
     let password = '';
+    let successmessage='';
 
     const userdaten = {
         username,
@@ -28,10 +30,16 @@ import Navbar from "../Navbar.svelte";
       if (response.ok) {
         /* wenn Registrierung erfolgreich war */
         const data = await response.text();
+
+        successmessage = 'Registrierung erfolgreich. Weiterleitung zum Login...';
         console.log(data);
-      //  const JSESSIONID = data.token;
-        /* Cookies setzen */
-       // Cookies.set("SessionID", JSESSIONID);
+
+        setTimeout(() => {
+        successmessage = '';
+        goto('/login');
+        }, 3000);
+
+      
 
         console.log("Registrierung erfolgreich");
       } else {
@@ -48,7 +56,7 @@ import Navbar from "../Navbar.svelte";
 <!-- Benutzeroberfäche -->
 <!-- bei username und passwort muss noch die entsprechende Variable eingesetzt werden und beim Passwort der type evtl zu password geändert werden-->
 <body>
-    <div class="flex justify-center items-center h-screen bg-blue-200">
+    <div class="flex justify-center items-center h-screen bg-blue-100">
         <div class="w-96 p-6 shadow-lg bg-white rounded-md">
             <h1 class="text-3xl block text-center font-semibold">Registrierung</h1>
             <hr class="mt-3">
@@ -69,6 +77,13 @@ import Navbar from "../Navbar.svelte";
             
             </div>
         </div>
+        {#if successmessage}
+      <div class="fixed top-0 left-0 right-0 bottom-0 flex items-center justify-center z-50">
+        <div class="bg-indigo-200 p-4 rounded-md border border-gray-300">
+          <p>{successmessage}</p>
+        </div>
+      </div>
+    {/if}
     </div>
 </body>
 <Footer />

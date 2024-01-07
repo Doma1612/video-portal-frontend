@@ -6,7 +6,7 @@
 <footer class="bg-white-500 text-gray p-20">
   <div class="max-w-5xl mx-auto flex justify-between items-center">
     <div>
-      <p>&copy; 2023 DLJP Video-Portal</p>
+      <p>&copy; 2023 WISO Video-Portal</p>
     </div>
     <div>
       <ul class="flex space-x-4">
