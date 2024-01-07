@@ -1,5 +1,5 @@
 <script>
-	import logo from '$lib/logo_video_portal.png';
+	import logo from '$lib/Logo.svg';
 
 	//import Suchleiste from './Suchleiste.svelte';
 </script>
@@ -21,20 +21,19 @@
 				<button
 					><a
 						href="/registrierung"
-						class="bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow"
+						class="bg-gray-100 hover:bg-blue-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow"
 						>Registrieren</a
 					></button
 				>
 			</div>
 			<div>
 				<!--Quelle: https://v1.tailwindcss.com/components/buttons-->
-				<button
-					><a
+				<button>
+					<a
 						href="/login"
-						class="bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow"
-						>Login</a
-					></button
-				>
+						class="bg-gray-100 hover:bg-blue-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow"
+						>Login</a>
+				</button>
 			</div>
 		</div>
 	</nav>

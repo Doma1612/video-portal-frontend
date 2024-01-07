@@ -95,9 +95,14 @@
 <script>
   let username ='';
   let password = '';
+  let loggedin = false;
+  let errormessage = '';
+  let successmessage ='';
+
   import Cookies from "js-cookie";
     import Navbar from "../Navbar.svelte";
     import Footer from "../Footer.svelte";
+    import { goto } from '$app/navigation';
 
   const userdaten = {
     // @ts-ignore
@@ -121,16 +126,34 @@
       );
       console.log(username + ' '+ password);
       console.log(response);
+
       if (response.ok) {
         /* wenn Login erfolgreich war */
-        const data = await response.text();
+        const data = await response.json(); 
         console.log(data);
-      //  const JSESSIONID = data.token;
+  
         /* Cookies setzen */
-       // Cookies.set("SessionID", JSESSIONID);
+       Cookies.set("UserRolle", data.rolle);
 
+        loggedin = true; 
+
+        successmessage = 'Login erfolgreich. Weiterleitung zur Startseite...';
         console.log("Login erfolgreich");
+
+        setTimeout(() => {
+        successmessage = '';
+        goto('/');
+        }, 3000);
+
       } else {
+        errormessage = 'Login fehlerhaft. Bitte erneut versuchen';
+        setTimeout(() => {
+        errormessage = '';
+        }, 3000);
+
+        userdaten.username = '';
+        userdaten.password = '';
+
         console.log("Login fehlgeschlagen");
       }
     } catch (error) {
@@ -143,7 +166,7 @@
 <!-- Benutzeroberfäche -->
 <!-- bei username und passwort muss noch die entsprechende Variable eingesetzt werden und beim Passwort der type evtl zu password geändert werden-->
 <body>
-  <div class="flex justify-center items-center h-screen bg-blue-200">
+  <div class="flex justify-center items-center h-screen bg-blue-100">
     <div class="w-96 p-6 shadow-lg bg-white rounded-md">
       <h1 class="text-3xl block text-center font-semibold">Login</h1>
       <hr class="mt-3" />
@@ -168,9 +191,6 @@
         />
       </div>
       <div class="mt-5">
-        <!--<button type="submit" class="border-2 border-indigo-700 bg-blue-500 text-white py-1 w-full rounded-mg hover:bg-transparent 
-                    hover:text-blue-500 font-semibold">Login</button> -->
-
         <button
           type="submit"
           class="border-2 border-indigo-700 bg-blue-500 text-white py-1 w-full rounded-mg hover:bg-transparent hover:text-blue-500 font-semibold"
@@ -178,6 +198,20 @@
         >
       </div>
     </div>
+    {#if errormessage}
+      <div class="fixed top-0 left-0 right-0 bottom-0 flex items-center justify-center z-50">
+        <div class="bg-indigo-200 p-4 rounded-md border border-gray-300">
+          <p>{errormessage}</p>
+        </div>
+      </div>
+    {/if}
+    {#if successmessage}
+      <div class="fixed top-0 left-0 right-0 bottom-0 flex items-center justify-center z-50">
+        <div class="bg-indigo-200 p-4 rounded-md border border-gray-300">
+          <p>{successmessage}</p>
+        </div>
+      </div>
+    {/if}
   </div>
 </body>
 <Footer />
