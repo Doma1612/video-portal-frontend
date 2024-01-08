@@ -1,6 +1,8 @@
 <script>
 	import Footer from '../Footer.svelte';
 import Navbar from '../Navbar.svelte';
+import { userRole } from '$lib/store';
+import LoginComponent from '../LoginComponent.svelte';
 	import VideoPlayer from '../VideoPlayer.svelte';
 	let titel = '';
 	let beschreibung = '';
@@ -16,6 +18,7 @@ import Navbar from '../Navbar.svelte';
 	let files;
 	let kategorien = [];
 	let videoSrc = '';
+	let userRolleValue = $userRole;
 
 	async function getAllKategorien() {
 		const response = await fetch(
@@ -142,7 +145,7 @@ import Navbar from '../Navbar.svelte';
 		}
 	}
 </script>
-
+{#if $userRole == 1}
 <div>
 	<Navbar />
 </div>
@@ -246,3 +249,6 @@ import Navbar from '../Navbar.svelte';
 	</form>
 </div>
 <Footer />
+{:else}
+<LoginComponent />
+{/if}

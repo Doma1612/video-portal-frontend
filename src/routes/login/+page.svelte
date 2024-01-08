@@ -104,6 +104,14 @@
     import Footer from "../Footer.svelte";
     import { goto } from '$app/navigation';
 
+    // Store-Variable Login für Upload etc.
+    import { userRole } from '$lib/store';
+    let userRolle;
+
+    const unsubscribe = userRole.subscribe((value) => {
+		userRolle = value;
+	});
+
   const userdaten = {
     // @ts-ignore
     username,
@@ -134,6 +142,10 @@
   
         /* Cookies setzen */
        Cookies.set("UserRolle", data.rolle);
+       // Store Rolle mitgeben
+       userRole.set(data.rolle);
+       const userRoleValue = $userRole;
+       console.log(userRoleValue)
 
         loggedin = true; 
 

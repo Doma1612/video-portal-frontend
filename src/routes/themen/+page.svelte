@@ -1,6 +1,6 @@
 <script>
 	import Footer from '../Footer.svelte';
-import Navbar from '../Navbar.svelte';
+    import Navbar from '../Navbar.svelte';
 	//	import Suchleiste from '../Suchleiste.svelte';
 	//let videoID = 0;
 	let videoBlob = '';
@@ -12,6 +12,8 @@ import Navbar from '../Navbar.svelte';
 	let inputSuchbegriff = '';
 	let sucheGestartet = false;
 	let gefundeneVideos = [];
+	import { userRole } from '$lib/store';
+	import LoginComponent from '../LoginComponent.svelte';
 	import VideoPlayer from '../VideoPlayer.svelte';
 	//import { onMount } from 'svelte';
 
@@ -49,7 +51,7 @@ import Navbar from '../Navbar.svelte';
 		return videoURL;
 	}
 </script>
-
+{#if $userRole == 1 || $userRole == 0}
 <Navbar />
 <div
 	class=" max-w-5xl mx-auto rounded-full border border-black bg-white-200 p-2 flex hover:bg-gray-200 transition ease-out delay-50 shadow"
@@ -92,6 +94,9 @@ import Navbar from '../Navbar.svelte';
 
 {#if istSuchbegriffEingegeben && sucheGestartet}
 <Footer />
+{/if}
+{:else}
+<LoginComponent />
 {/if}
 
 <!-- Suche muss in Main ein Ergebnis ausgeben-->
