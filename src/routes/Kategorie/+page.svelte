@@ -1,11 +1,14 @@
 <script>
 	import Footer from '../Footer.svelte';
-import Navbar from '../Navbar.svelte';
+    import Navbar from '../Navbar.svelte';
+    import { userRole } from '$lib/store';
+    import LoginComponent from '../LoginComponent.svelte';
 	let name = '';
 	let kategorieID = 0;
 	let id = 0;
 	let kategorie = '';
 	let kategorien = [];
+    let userRolleValue = $userRole;
 
 	const newCategory = {
 		name: '',
@@ -53,6 +56,15 @@ import Navbar from '../Navbar.svelte';
       window.alert('Bitte gebe einen Kategorienamne ein!');
       return;
 		}
+        console.log(userRolleValue)
+		if (userRolleValue != 0) {
+      window.alert('Nicht eingeloggt!');
+      return;
+		} else {
+			console.log("WERT " +userRolleValue)
+		}
+
+
 
 		try {
 			const response = await fetch(
@@ -179,9 +191,13 @@ import Navbar from '../Navbar.svelte';
 	}
 </script>
 
-<Navbar />
+
 
 <!-- Kategorie anlegen -->
+
+
+{#if $userRole == 1}
+<Navbar />
 <div
 	class="w-full sm:w-1/2 md:w-1/4 lg:w-1/2 xl:w-full border border-dotted border-gray-400 bg-gray-100 p-4 rounded-md mx-auto sm:my-2 lg:my-4 xl:my-40"
 >
@@ -274,3 +290,7 @@ import Navbar from '../Navbar.svelte';
 	>
 </div>
 <Footer />
+{:else}
+<LoginComponent />
+{/if}
+
