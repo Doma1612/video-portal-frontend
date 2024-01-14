@@ -2,6 +2,8 @@
     export let title = '';
     export let linkTo = '';
     export let beschreibung = '';
+	export let videoAction = '';
+	export let videoAufrufe = '';
 
 
 </script>
@@ -10,6 +12,9 @@
     
 	<h2 class="text-xl font-semibold mb-4">{title}</h2>
 	<p class="text-gray-600">{beschreibung}</p>
+	<br>
+	<p class="text-gray-600"> {videoAufrufe}</p>
+	<p class="text-gray-600 font-bold">{videoAction}</p>
 	<div class="mt-4">
 	</div>
 </div>

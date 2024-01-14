@@ -1,96 +1,4 @@
-<!-- Login Methode -->
 
-<!-- 
-<script context="module">
-    import { fail, redirect } from '@sveltejs/kit';
-    import * as api from '$lib/api.js';
-  
-    // @ts-ignore
-    export async function login(request, cookies, locals) {
-      try {
-        const data = await request.formData();
-  
-        const body = await api.postLogin('login', {
-          username: data.get('username'),
-          password: data.get('password')
-        });
-  
-        const ret = await body;
-  
-        if (body.token == "") {
-          return fail(401, body);
-        }
-  
-        locals.user = data.get('username');
-        console.log("data.user=" + data.get('username'));
-        console.log("locals.user=" + locals.user);
-  
-        locals.session = ret.token;
-        cookies.set('user', locals.user, { path: '/' });
-        cookies.set('session', ret.token, { path: '/' });
-  
-        throw redirect(303, '/');
-      } catch (error) {
-        // Fehler
-        console.error('Error during login:', error);
-        return fail(500, { error: 'Internal Server Error' });
-      }
-    }
-  
-    // @ts-ignore
-    export async function logout(cookies, locals) {
-      locals.session = "";
-      locals.user = "";
-      cookies.set('user', "", { path: '/' });
-      cookies.set('session', "", { path: '/' });
-      console.log("logout called");
-  
-      throw redirect(307, '/');
-    }
-</script> -->
-
-<!-- <script>
-
-    import { fail, redirect } from '@sveltejs/kit';
-    import * as api from '$lib/api.js';
-
-    async function login() {
-
-        try {
-            const data = await request.formData();
-
-            /* in '' noch passenden Namen aus dem backend einsetzen */
-            const body = await api.postLogin('login', {
-            username: data.get('username'),
-            password: data.get('password')
-            });
-
-            const ret = await body;
-
-            if (body.token == "") {
-            return fail(401, body);
-            }
-
-            locals.user = data.get('username');
-            console.log("data.user=" + data.get('username'));
-            console.log("locals.user=" + locals.user);
-
-            locals.session = ret.token;
-            // cookies.set('jwt', ret.token, { path: '/' });
-            cookies.set('user', locals.user, { path: '/' });
-            cookies.set('session', ret.token, { path: '/' });
-
-            throw redirect(303, '/');
-        } catch (error) {
-            // Fehler
-            console.error('Error during login:', error);
-            return fail(500, { error: 'Internal Server Error' });
-        }
-
-        
-    }
-
-</script> -->
 
 <script>
     let username ='';
@@ -98,6 +6,7 @@
     let loggedin = false;
     let errormessage = '';
     let successmessage ='';
+    export let benötigteRolle = '';
   
     import Cookies from "js-cookie";
       import Navbar from "./Navbar.svelte";
@@ -191,6 +100,7 @@
     <div class="flex justify-center items-center h-screen bg-blue-100">
       <div class="w-96 p-6 shadow-lg bg-white rounded-md">
         <h1 class="text-3xl block text-center font-semibold">Login</h1>
+        <h3 class="text-1xl block text-center font-semibold">{benötigteRolle}</h3>
         <hr class="mt-3" />
         <div class="mt-3">
           <label for="username" class="block text-base mb-2">Benutzername</label>

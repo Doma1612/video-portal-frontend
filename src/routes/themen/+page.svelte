@@ -5,6 +5,9 @@
 	//let videoID = 0;
 	let videoBlob = '';
 	let videoURL = '';
+	let selectedVideo = null;
+
+	let videoURL2 = '';
 	let videoName = '';
 	let aufrufAnzahl = '';
 	let beschreibung = '';
@@ -15,6 +18,7 @@
 	import { userRole } from '$lib/store';
 	import LoginComponent from '../LoginComponent.svelte';
 	import VideoPlayer from '../VideoPlayer.svelte';
+	import Panel from '../Panel.svelte'
 	//import { onMount } from 'svelte';
 
 	export let istSuchbegriffEingegeben = false;
@@ -37,6 +41,13 @@
 		
 	}
 
+	async function loadVideo(video) {
+		console.log("Works")
+		selectedVideo = video;
+    videoURL2 = await getVideoByteStreamById(video.videoId);
+
+	}
+
 	async function getVideoByteStreamById(videoID) {
 		const response = await fetch(
 			`http://131.173.88.197:8080/SP_Video_Portal_REST-0.0.1-SNAPSHOT/api/video/ladeVideo/${videoID}`
@@ -47,7 +58,7 @@
 		videoURL = URL.createObjectURL(videoBlob);
 	    
 
-		//console.log(videoURL);
+		console.log(videoURL);
 		return videoURL;
 	}
 </script>
@@ -72,22 +83,30 @@
 
 {#if istSuchbegriffEingegeben && sucheGestartet}
 	<!-- <div class="max-w-5xl mx-auto bg-white-200 p-2 flex transition ease-out delay-50"></div> -->
-    
+    <br><br>
 	<h1 class="text-3xl font-bold text-gray-600 text-center">Videos zum Suchbegriff {Suchbegriff}</h1>
-    <div class="max-w-2xl mx-auto flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4 lg:space-x-12">
+  <br>
 	{#each gefundeneVideos as video}
 	<!-- {(videoName = video.name)} -->
 	<!-- {(aufrufAnzahl = video.anzahlAufrufe)} -->
+	 <div class="max-w-2xl mx-auto flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4 lg:space-x-12 border-dotted border-4 border-blue-300 " on:click={() => loadVideo(video)}> 
+	<Panel title={video.name} beschreibung = {video.beschreibung} videoAction = "Klicken zum anschauen" videoAufrufe = {"Aufrufe:"+video.anzahlAufrufe}  />
 	
-		{#await getVideoByteStreamById(video.videoId) then videoURLFromPromise}
-			{#if videoURLFromPromise}
-				<!-- {(videoURL = videoURLFromPromise)} --><!-- Deswegen Blob!!-->
-				<!-- videoName = video. -->
-				<VideoPlayer {video} aufrufe= {(aufrufAnzahl = video.anzahlAufrufe)} name={(videoName = video.name)} beschreibung={(beschreibung= video.beschreibung)}  src={videoURL} ></VideoPlayer> <!-- name={videoName} aufrufe={aufrufAnzahl}-->
-			{/if}
-		{/await}
+	
+	
+	{#if selectedVideo === video && videoURL2}
+<!--	{#if videoURL2} -->
+	<VideoPlayer {video}  src={videoURL2} ></VideoPlayer> <!-- name={videoName} aufrufe={aufrufAnzahl}-->
+    {/if}
+</div>
+
+
+
+	<br>
+	
+	<!--	</div> -->
 	{/each}
-	</div>
+	<!-- </div> -->
 {:else}
 	<div></div>
 {/if}
@@ -96,7 +115,7 @@
 <Footer />
 {/if}
 {:else}
-<LoginComponent />
+<LoginComponent benötigteRolle = "Account notwendig" />
 {/if}
 
 <!-- Suche muss in Main ein Ergebnis ausgeben-->
