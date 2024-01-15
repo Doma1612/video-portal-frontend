@@ -1,5 +1,6 @@
 <script>
     import Navbar from "../Navbar.svelte";
+    import Footer from '../Footer.svelte';
 
     let name = '';
     let email = '';
@@ -74,5 +75,4 @@
     </div>
 
   </section>
-
-  <!-- Quelle: tailblocks.cc -->
+  <Footer />
