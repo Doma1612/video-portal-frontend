@@ -6,13 +6,24 @@ import { goto } from '$app/navigation';
     let username = '';
     let password = '';
     let successmessage='';
+    let error = '';
 
     const userdaten = {
         username,
         password
     }
+
     
     async function registrieren() {
+
+      if (!userdaten.username || !userdaten.password) {
+      error = 'Benutzername und Passwort sind erforderlich.';
+
+      setTimeout(() => {
+        error = '';
+      }, 3000);
+      return;
+    } 
 
     try {
       const response = await fetch(
@@ -53,8 +64,7 @@ import { goto } from '$app/navigation';
     
 </script>
 <Navbar />
-<!-- Benutzeroberfäche -->
-<!-- bei username und passwort muss noch die entsprechende Variable eingesetzt werden und beim Passwort der type evtl zu password geändert werden-->
+
 <body>
     <div class="flex justify-center items-center h-screen bg-blue-100">
         <div class="w-96 p-6 shadow-lg bg-white rounded-md">
@@ -84,8 +94,13 @@ import { goto } from '$app/navigation';
         </div>
       </div>
     {/if}
+    {#if error}
+      <div class="fixed top-0 left-0 right-0 bottom-0 flex items-center justify-center z-50">
+        <div class="bg-red-500 p-4 rounded-md border border-gray-300">
+          <p>{error}</p>
+        </div>
+      </div>
+    {/if}
     </div>
 </body>
 <Footer />
-<!-- 2 Inputfelder und ein Button, der die Methode aufruft-->
-<!-- Quelle: Youtube: How To Make Login Page Using Tailwind | Create Login Form Using Tailwind CSS For Beginners-->

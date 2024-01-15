@@ -11,6 +11,7 @@
     <div>
       <ul class="flex space-x-4">
         <li><a href="/Impressum">Impressum</a></li>
+        <li><a href="/Datenschutz">Datenschutz</a></li>
         <li><a href="/Kontakt">Kontakt</a></li>
       </ul>
     </div>
