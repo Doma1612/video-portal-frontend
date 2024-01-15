@@ -3,10 +3,12 @@
 import Navbar from '../Navbar.svelte';
 import { userRole } from '$lib/store';
 import LoginComponent from '../LoginComponent.svelte';
+import { goto } from '$app/navigation';
 	import VideoPlayer from '../VideoPlayer.svelte';
 	let titel = '';
 	let beschreibung = '';
 	let selectedCategoryId = null;
+	let successmessage='';
 	let stichwoerter = '';
 	let kategorie = '';
 	let unterkategorie = '';
@@ -59,6 +61,7 @@ import LoginComponent from '../LoginComponent.svelte';
 				console.log('BIT:  ' + bitUnit8);
 				//dateiEndung = dateiEndungHolen(file);
 				console.log(dateiEndung)
+				window.alert('Video wird hochgeladen...');
 				await fetch(
 					`http://131.173.88.197:8080/SP_Video_Portal_REST-0.0.1-SNAPSHOT/api/video/videoHinzufuegen/${dateiEndung}/${titel}/${kategorie}/${beschreibung}/${stichwoerter}/${unterkategorie}`,
 					{
@@ -72,11 +75,12 @@ import LoginComponent from '../LoginComponent.svelte';
 					.then(async (response) => {
 						if (response.ok) {
 							console.log('Video wurde hochgeladen');
-							const confirmed = window.confirm('Video wurde erfolgreich hochgeladen! Möchten Sie die Seite neu laden?');
+							
+							setTimeout(() => {	
+                            goto('/');
+                            }, 2000);
+							window.alert('Video wurde erfolgreich hochgeladen! Möchten Sie die Seite neu laden?');
 
-							if (confirmed) {
-                            window.location.reload(); // 
-            }
 						} else {
 							console.error('Fehler beim VideoUpload');
 							window.alert("Fehler beim Uplaod. Versuchen Sie es erneut.")
@@ -150,14 +154,12 @@ import LoginComponent from '../LoginComponent.svelte';
 	<Navbar />
 </div>
 
-<div
-	class="w-full sm:w-1/2 md:w-1/4 lg:w-1/2 xl:w-full border border-dotted border-gray-400 bg-gray-100 p-4 rounded-md mx-auto my-4 sm:my-2 lg:my-4 xl:my-40"
->
+<div class="w-full sm:w-5/6 md:w-3/4 lg:w-2/3 xl:w-1/2 mx-auto my-4 border border-dotted border-gray-40 rounded-md bg-gray-100">
 	<h1 class="text-3xl font-bold text-gray-600 text-center">Video hochladen</h1>
-	<!-- Formular video/*-->
+	
 
-	<form id="videoForm" enctype="multipart/form-data">
-		<div class="my-8 sm:my-4">
+	<form id="videoForm" enctype="multipart/form-data" class="my-4">
+		<div class="my-4">
 			<input
 				type="file"
 				bind:files
@@ -167,33 +169,19 @@ import LoginComponent from '../LoginComponent.svelte';
 				class="form-input p-2 border border-gray-300 rounded-lg hover:border-blue-500 focus:border-blue-500"
 				required
 			/>
-			<button class="p-2 bg-blue-500 text-white hover:bg-blue-700 rounded-lg mt-2 sm:mt-0"
+			<button class="p-2 bg-blue-500 text-white hover:bg-blue-700 rounded-lg mt-2 w-full sm:w-auto"
 				>Video hochladen</button
 			>
 		</div>
 
-		<!-- <div class="my-8 sm:my-4">
-			<input
-				type="file"
-				accept="image/*"
-				class="form-input p-2 border border-gray-300 rounded-lg hover:border-blue-500 focus:border-blue-500"
-			/>
-			
-			<button
-				
-				class="p-2 bg-blue-500 text-white hover:bg-blue-700 rounded-lg mt-2 sm:mt-0"
-				>Thumbnail hochladen</button
-			>
-		</div> -->
-
-		<h3 class="text-xl font-bold text-gray-600 sm:my-2">Titel</h3>
+		<h3 class="text-xl font-bold text-gray-600 my-2">Titel</h3>
 		<input
 			type="text"
 			placeholder="Titel"
 			bind:value={titel}
 			class="form-input w-full p-2 border border-gray-300 rounded-lg hover:border-blue-500 focus:border-blue-500"
 		/>
-		<h3 class="text-xl font-bold text-gray-600">Beschreibung</h3>
+		<h3 class="text-xl font-bold text-gray-600 my-2">Beschreibung</h3>
 		<input
 			type="text"
 			placeholder="Beschreibung"
@@ -201,7 +189,7 @@ import LoginComponent from '../LoginComponent.svelte';
 			class="form-input w-full p-2 border border-gray-300 rounded-lg hover:border-blue-500 focus:border-blue-500"
 		/>
 
-		<h3 class="text-xl font-bold text-gray-600">Suche eine Kategorie aus:</h3>
+		<h3 class="text-xl font-bold text-gray-600 my-2">Suche eine Kategorie aus:</h3>
 
 		<select
 			name="kategorie"
@@ -217,7 +205,7 @@ import LoginComponent from '../LoginComponent.svelte';
 			{/each}
 		</select>
 
-		<h3 class="text-xl font-bold text-gray-600">Suche eine Unterkategorie aus:</h3>
+		<h3 class="text-xl font-bold text-gray-600 my-2">Suche eine Unterkategorie aus:</h3>
 
 		<select
 			name="unterkategorie"
@@ -233,22 +221,22 @@ import LoginComponent from '../LoginComponent.svelte';
 				{/if}
 			{/each}
 		</select>
-		<h3 class="text-xl font-bold text-gray-600">Stichwörter</h3>
+		<h3 class="text-xl font-bold text-gray-600 my-2">Stichwörter</h3>
 		<input
 			type="text"
 			bind:value={stichwoerter}
 			placeholder="Stichwörter (durch Kommas getrennt)"
-			class="form-input w-1/2 p-2 border border-gray-300 rounded-lg hover:border-blue-500 focus:border-blue-500 my-2 sm:my-4"
+			class="form-input w-full p-2 border border-gray-300 rounded-lg hover:border-blue-500 focus:border-blue-500"
 		/>
 
 		<button
 			on:click={videoUpload}
-			class="p-2 bg-blue-500 text-white hover:bg-blue-700 rounded-lg mt-2 sm:mt-4 sm:float-right"
+			class="w-full p-2 bg-blue-500 text-white hover:bg-blue-700 rounded-lg mt-2 sm:w-auto"
 			>Upload</button
 		>
 	</form>
 </div>
 <Footer />
 {:else}
-<LoginComponent />
+<LoginComponent benötigteRolle = "Admin-Account notwendig" />
 {/if}
