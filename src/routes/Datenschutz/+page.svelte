@@ -1,14 +1,11 @@
 <script>
-    /** @type {import('./$types').PageData} */
-    export let data;
     import Navbar from "../Navbar.svelte";
     import Footer from '../Footer.svelte';
 </script>
 <Navbar />
 
-
-<body>
-    <div class="datenschutzerklaerung">
+<body class="flex items-center justify-center min-h-screen bg-blue-100">
+  <div class="max-w-2xl p-6 shadow-lg bg-white rounded-md w-full">
         <h1 class="text-3xl block font-semibold py-5 px-1.5">Datenschutzerklärung</h1>
         <br>
         <p><b>1. Allgemeine Informationen: </b></p>
@@ -38,20 +35,8 @@
         <br>
         <p><b>7. Kontaktinformationen:</b></p>
         <p>Bei Fragen oder Bedenken zu dieser Datenschutzerklärung kontaktieren Sie uns bitte unter info@wisoweshalbwarum.de oder über unser Kontaktformular.</p>
-      </div>
+      
+  </div>
 </body>
-<Footer />
 
-<style>
-    .datenschutzerklaerung {
-      padding: 20px; 
-      border: 1px solid #ccc; 
-      box-sizing: border-box;
-        line-height: 36px;
-        display: block;
-        padding-top: 5rem;
-        padding-bottom: 5rem;
-        padding-left: 5rem;
-        padding-right: 5rem;
-    }
-  </style>
+<Footer />
